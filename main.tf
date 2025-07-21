@@ -93,13 +93,13 @@ resource "aws_autoscaling_group" "asg" {
   }
 }
 
-# FSx (Windows)
+# ✅ FSx (Windows) — fixed argument `subnet_ids` as a list
 resource "aws_fsx_windows_file_system" "fsx" {
-  subnet_id                  = aws_subnet.private_a.id
-  storage_capacity           = 32
-  throughput_capacity        = 16
-  preferred_subnet_id        = aws_subnet.private_a.id
-  deployment_type            = "SINGLE_AZ_1"
+  subnet_ids                  = [aws_subnet.private_a.id]
+  storage_capacity            = 32
+  throughput_capacity         = 16
+  preferred_subnet_id         = aws_subnet.private_a.id
+  deployment_type             = "SINGLE_AZ_1"
   automatic_backup_retention_days = 7
 }
 
@@ -114,8 +114,8 @@ resource "aws_db_instance" "rds" {
   engine                  = "mysql"
   engine_version          = "8.0"
   instance_class          = "db.t3.micro"
-  username                = var.db_user
-  password                = var.db_password
+  username                = sanju
+  password                = Sanju936@
   allocated_storage       = 20
   db_subnet_group_name    = aws_db_subnet_group.db_subnet.name
   vpc_security_group_ids  = [aws_security_group.all_traffic.id]
